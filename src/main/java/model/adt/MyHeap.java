@@ -1,0 +1,93 @@
+package model.adt;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+
+public class MyHeap<V> implements MyIHeap<V> {
+    private static int address=0;
+
+    private Map<Integer,V> map;
+
+    public MyHeap(){map=new HashMap<>();}
+
+    private int nextAddress() {return address++;}
+
+    public static void resetAddress()
+    {
+        address=0;
+    }
+
+    @Override
+    public int put(V v)
+    {
+        int adr=nextAddress();
+        map.put(adr,v);
+        return adr;
+    }
+
+    @Override
+    public V lookUp(int adr)
+    {
+        return map.get(adr);
+    }
+
+    @Override
+    public List<Integer> getKeys()
+    {
+        return new ArrayList<>(map.keySet());
+    }
+
+    @Override
+    public boolean isDefined(int adr)
+    {
+        return map.containsKey(adr);
+    }
+
+    @Override
+    public void setContent(Map<Integer,V> map)
+    {
+        this.map=map;
+    }
+
+    @Override
+    public Map<Integer,V> getContent()
+    {
+        return map;
+    }
+
+    @Override
+    public void clear()
+    {
+        map.clear();
+    }
+
+    @Override
+    public void update(int adr, V value)
+    {
+        map.put(adr,value);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("{");
+        for (Map.Entry<Integer, V> entry : map.entrySet()) {
+            builder.append(entry.getKey())
+                    .append(" -> ")
+                    .append(entry.getValue())
+                    .append(", ");
+        }
+
+        if (builder.length() > 1) {
+            builder.setLength(builder.length() - 2);
+        }
+
+        builder.append("}");
+        return builder.toString();
+    }
+}
+
